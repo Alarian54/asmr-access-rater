@@ -1,0 +1,30 @@
+package other;
+
+import model.Place;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+public class LoadSave {
+
+    public ArrayList<Place> load(String fileName) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(fileName));
+        ArrayList<Place> places = new ArrayList<>();
+        for (String line : lines) {
+            places.add(new Place(line));
+        }
+        return places;
+    }
+
+    public void save(ArrayList<Place> places, String fileName) throws IOException {
+        PrintWriter writer = new PrintWriter(fileName,"UTF-8");
+        for (Place place : places) {
+            writer.println(place.getName());
+        }
+        writer.close();
+    }
+}
