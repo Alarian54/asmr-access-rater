@@ -45,7 +45,7 @@ public class GUI extends Application {
             disabilities = new ArrayList<>();
             places = new PlaceList();
         }
-        width = 725;
+        width = 600;
     }
 
     @Override
@@ -152,6 +152,7 @@ public class GUI extends Application {
             Platform.exit();
         });
         HBox hbox = getHBox();
+        hbox.setSpacing(57);
         border.setTop(hbox);
         hbox.getChildren().addAll(buttonAddPlace, buttonDelPlace, buttonReview, buttonQuit);
 
@@ -198,7 +199,7 @@ public class GUI extends Application {
     }
 
     private void selectType(Stage primaryStage, String name) {
-        primaryStage.setTitle("Access Rater - Setup");
+        primaryStage.setTitle("Access Rater - Place Type");
         BorderPane border = new BorderPane();
 
         Button buttonBack = new Button("Back");
@@ -222,21 +223,21 @@ public class GUI extends Application {
         Button buttonFoodDrink = new Button("Food or drink");
         buttonFoodDrink.setPrefSize(130, 20);
         buttonFoodDrink.setOnAction((ActionEvent event) -> {
-            places.add(new Place(name, "FoodDrink", 0));
+            places.add(new Place(name, "FoodDrink", 0, 0));
             main(primaryStage);
         });
 
         Button buttonTourist = new Button("Tourist attraction");
         buttonTourist.setPrefSize(130, 20);
         buttonTourist.setOnAction((ActionEvent event) -> {
-            places.add(new Place(name, "Tourist", 0));
+            places.add(new Place(name, "Tourist", 0, 0));
             main(primaryStage);
         });
 
         Button buttonLifestyle = new Button("Lifestyle");
         buttonLifestyle.setPrefSize(130, 20);
         buttonLifestyle.setOnAction((ActionEvent event) -> {
-            places.add(new Place(name, "Lifestyle", 0));
+            places.add(new Place(name, "Lifestyle", 0, 0));
             main(primaryStage);
         });
 
@@ -315,6 +316,8 @@ public class GUI extends Application {
             int j = i;
             b.setOnAction((ActionEvent event) -> {
                 place = j;
+                places.getPlace(j).setTicks(0);
+                places.getPlace(j).setMaxTicks(0);
                 review(primaryStage);
             });
             height+=37;
@@ -328,7 +331,785 @@ public class GUI extends Application {
     }
 
     private void review(Stage primaryStage) {
+        if (disabilities.contains("physical")) {
+            physical1(primaryStage);
+        } else if (disabilities.contains("hearing")) {
+            hearing1(primaryStage);
+        } else {
+            visual1(primaryStage);
+        }
+    }
 
+    private void physical1(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Washrooms");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            addReview(primaryStage);
+        });
+
+        Text which = new Text("Does this place have accessible washrooms?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(97);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            physical2(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            physical2(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 500, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void physical2(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Entrances");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            physical1(primaryStage);
+        });
+
+        Text which = new Text("Does this place have accessible entrances?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(97);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            physical3(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            physical3(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 500, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void physical3(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Seating");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            physical2(primaryStage);
+        });
+
+        Text which = new Text("Does this place have suitable tables/seating?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(97);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            physical4(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            physical4(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 500, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void physical4(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Elevators");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            physical3(primaryStage);
+        });
+
+        Text which = new Text("Does this place have elevators, when needed?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(97);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            physical5(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            physical5(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 500, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void physical5(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Parking");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            physical4(primaryStage);
+        });
+
+        Text which = new Text("Does this place have disabled parking?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(97);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            if (disabilities.contains("hearing")) {
+                hearing1(primaryStage);
+            } else if (disabilities.contains("visual")) {
+                visual1(primaryStage);
+            } else {
+                guide(primaryStage);
+            }
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            if (disabilities.contains("hearing")) {
+                hearing1(primaryStage);
+            } else if (disabilities.contains("visual")) {
+                visual1(primaryStage);
+            } else {
+                guide(primaryStage);
+            }
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 500, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void hearing1(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - ASL training");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            if (disabilities.contains("physical")) {
+                physical5(primaryStage);
+            } else {
+                addReview(primaryStage);
+            }
+        });
+
+        Text which = new Text("Does this place have ASL-trained employees?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(97);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            hearing2(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            hearing2(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 500, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void hearing2(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Visual Tools");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            hearing1(primaryStage);
+        });
+
+        Text which = new Text("Does this place have any visual tools for communication (e.g. tablets?)");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(142);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            hearing3(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            hearing3(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 680, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void hearing3(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Lighting");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            hearing2(primaryStage);
+        });
+
+        Text which = new Text("Is this place well lit (for lip reading?)");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(97);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            hearing4(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            hearing4(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 500, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void hearing4(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Employees");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            hearing3(primaryStage);
+        });
+
+        Text which = new Text("Do employees try their best to communicate with you?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(132);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            if (disabilities.contains("visual")) {
+                visual1(primaryStage);
+            } else {
+                guide(primaryStage);
+            }
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            if (disabilities.contains("visual")) {
+                visual1(primaryStage);
+            } else {
+                guide(primaryStage);
+            }
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 640, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void visual1(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Lighting");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            if (disabilities.contains("hearing")) {
+                hearing4(primaryStage);
+            } else if (disabilities.contains("physical")) {
+                physical5(primaryStage);
+            } else {
+                addReview(primaryStage);
+            }
+        });
+
+        Text which = new Text("Is this place well lit and navigable?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(97);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            visual2(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            visual2(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 500, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void visual2(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Braille or large text");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            visual1(primaryStage);
+        });
+
+        Text which = new Text("Does this place have Braille or large text signs?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(97);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            visual3(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            visual3(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 500, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void visual3(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Audio Tools");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            visual2(primaryStage);
+        });
+
+        Text which = new Text("Does this place have audio tools available?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(97);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            visual4(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            visual4(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 500, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void visual4(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Employees");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            visual3(primaryStage);
+        });
+
+        Text which = new Text("Do employees offer to guide you around?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(97);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            guide(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            guide(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 500, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void guide(Stage primaryStage) {
+        primaryStage.setTitle("Access Rater - Service Animals");
+        BorderPane border = new BorderPane();
+
+        Button buttonBack = new Button("Back");
+        buttonBack.setPrefSize(100, 20);
+        buttonBack.setOnAction((ActionEvent event) -> {
+            physical5(primaryStage);
+        });
+
+        Text which = new Text("Does this place allow guide dogs or other service animals?");
+        which.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16 ));
+        which.setStyle("-fx-fill: #FFFFFF;");
+
+        HBox hbox = getHBox();
+        border.setTop(hbox);
+        hbox.getChildren().addAll(buttonBack, which);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(122);
+
+        Button p1 = new Button();
+        p1.setPrefSize(50, 20);
+        p1.setVisible(false);
+        Button p2 = new Button();
+        p2.setPrefSize(50, 20);
+        p2.setVisible(false);
+
+        Button buttonYes = new Button("Yes");
+        buttonYes.setPrefSize(50, 20);
+        buttonYes.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addTick();
+            places.getPlace(place).addMaxTick();
+            main(primaryStage);
+        });
+
+        Button buttonNo = new Button("No");
+        buttonNo.setPrefSize(50, 20);
+        buttonNo.setOnAction((ActionEvent event) -> {
+            places.getPlace(place).addMaxTick();
+            main(primaryStage);
+        });
+
+        height = 100;
+        hbox2.getChildren().addAll(p1, buttonYes, buttonNo, p2);
+        border.setCenter(hbox2);
+
+        final Scene scene = new Scene(border, 600, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     @Override
@@ -420,6 +1201,7 @@ public class GUI extends Application {
         }
         height = Math.max(lheight, cheight);
         height = Math.max(height, rheight);
+        height = Math.max(height, 250);
         return new VBox[]{left, middle, right};
     }
 }
