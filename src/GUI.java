@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -20,7 +21,6 @@ import other.LoadSave;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GUI extends Application {
 
@@ -77,7 +77,7 @@ public class GUI extends Application {
             hbox2.setPadding(new Insets(10));
             hbox2.setSpacing(20);
 
-            Button buttonPhysical = new Button("Physical impairment");
+            Button buttonPhysical = new Button("Physically impaired");
             buttonPhysical.setPrefSize(130, 20);
             buttonPhysical.setOnAction((ActionEvent event) -> {
                 disabilities.add("physical");
@@ -89,7 +89,7 @@ public class GUI extends Application {
                 }
             });
 
-            Button buttonHearing = new Button("Hearing impairment");
+            Button buttonHearing = new Button("Hearing impaired");
             buttonHearing.setPrefSize(130, 20);
             buttonHearing.setOnAction((ActionEvent event) -> {
                 disabilities.add("hearing");
@@ -101,7 +101,7 @@ public class GUI extends Application {
                 }
             });
 
-            Button buttonVisual = new Button("Visual impairment");
+            Button buttonVisual = new Button("Visually impaired");
             buttonVisual.setPrefSize(130, 20);
             buttonVisual.setOnAction((ActionEvent event) -> {
                 disabilities.add("visual");
@@ -117,7 +117,7 @@ public class GUI extends Application {
             hbox2.getChildren().addAll(buttonPhysical, buttonHearing, buttonVisual);
             border.setCenter(hbox2);
 
-            final Scene scene = new Scene(border, width, height);
+            final Scene scene = new Scene(border, 450, height);
             primaryStage.setScene(scene);
             primaryStage.show();
         }
@@ -694,7 +694,7 @@ public class GUI extends Application {
 
         HBox hbox2 = new HBox();
         hbox2.setPadding(new Insets(10));
-        hbox2.setSpacing(142);
+        hbox2.setSpacing(97);
 
         Button p1 = new Button();
         p1.setPrefSize(50, 20);
@@ -800,7 +800,7 @@ public class GUI extends Application {
 
         HBox hbox2 = new HBox();
         hbox2.setPadding(new Insets(10));
-        hbox2.setSpacing(132);
+        hbox2.setSpacing(97);
 
         Button p1 = new Button();
         p1.setPrefSize(50, 20);
@@ -1079,7 +1079,7 @@ public class GUI extends Application {
 
         HBox hbox2 = new HBox();
         hbox2.setPadding(new Insets(10));
-        hbox2.setSpacing(122);
+        hbox2.setSpacing(97);
 
         Button p1 = new Button();
         p1.setPrefSize(50, 20);
@@ -1141,25 +1141,11 @@ public class GUI extends Application {
         middle.setSpacing(8);
         right.setPadding(new Insets(10));
         right.setSpacing(8);
-        List<String> displayLeft = new ArrayList<>();
-        List<String> displayMiddle = new ArrayList<>();
-        List<String> displayRight = new ArrayList<>();
-        if (places.size() > 0) {
-            for (Place place : places.getPlaces()) {
-                if (place.getType().equals("FoodDrink")) {
-                    displayLeft.addAll(place.printArray());
-                }
-                if (place.getType().equals("Tourist")) {
-                    displayMiddle.addAll(place.printArray());
-                }
-                if (place.getType().equals("Lifestyle")) {
-                    displayRight.addAll(place.printArray());
-                }
-            }
-        }
+
         int lheight = 90;
         int cheight = 90;
         int rheight = 90;
+
         Label l = new Label("--- Food and Drink ---");
         l.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         left.getChildren().add(l);
@@ -1169,36 +1155,29 @@ public class GUI extends Application {
         Label r = new Label("--- Lifestyle ---");
         r.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         right.getChildren().add(r);
-        for (String str : displayLeft) {
-            l = new Label(str);
-            if (!str.substring(0, 3).equals(" - ")) {
-                l.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
-                lheight+=29;
-            } else {
-                lheight+=26;
+
+        if (places.size() > 0) {
+            for (Place place : places.getPlaces()) {
+                Label name = new Label(place.getName());
+                name.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
+                Label score = new Label(place.printScore());
+                score.setTextFill(Color.web(place.scoreColor()));
+                System.out.println(place.scoreColor());
+                if (place.getType().equals("FoodDrink")) {
+                    left.getChildren().addAll(name, score);
+                    lheight += 55;
+                }
+                if (place.getType().equals("Tourist")) {
+                    middle.getChildren().addAll(name, score);
+                    cheight += 55;
+                }
+                if (place.getType().equals("Lifestyle")) {
+                    right.getChildren().addAll(name, score);
+                    rheight += 55;
+                }
             }
-            left.getChildren().add(l);
         }
-        for (String str : displayMiddle) {
-            c = new Label(str);
-            if (!str.substring(0, 3).equals(" - ")) {
-                c.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
-                cheight+=29;
-            } else {
-                cheight+=26;
-            }
-            middle.getChildren().add(c);
-        }
-        for (String str : displayRight) {
-            r = new Label(str);
-            if (!str.substring(0, 3).equals(" - ")) {
-                r.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
-                rheight+=29;
-            } else {
-                rheight+=26;
-            }
-            right.getChildren().add(r);
-        }
+
         height = Math.max(lheight, cheight);
         height = Math.max(height, rheight);
         height = Math.max(height, 250);
