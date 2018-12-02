@@ -13,4 +13,8 @@ public class Review {
     public String string() {
         return (stars + " stars" + "\n" + review);
     }
+
+    public int getStars() {
+        return stars;
+    }
 }
