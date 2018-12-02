@@ -1,0 +1,22 @@
+package model;
+
+import java.util.ArrayList;
+
+public class Data {
+    private ArrayList<String> disabilities;
+    private ArrayList<Place> places;
+
+    public Data(ArrayList<String> disabilities, ArrayList<Place> places) {
+        this.disabilities = disabilities;
+        this.places = places;
+    }
+
+    public ArrayList<String> getDisabilities() {
+        return disabilities;
+    }
+
+    public ArrayList<Place> getPlaces() {
+        return places;
+    }
+
+}
