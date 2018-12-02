@@ -1,5 +1,6 @@
 package other;
 
+import model.Data;
 import model.Place;
 
 import java.io.IOException;
@@ -7,23 +8,85 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LoadSave {
 
-    public ArrayList<Place> load(String fileName) throws IOException {
+    public Data load(String fileName) throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(fileName));
         ArrayList<Place> places = new ArrayList<>();
-        for (String line : lines) {
-            places.add(new Place(line));
+        ArrayList<String> disabilities = new ArrayList<>();
+        String[] firstline = lines.get(0).split(" ");
+        if (Arrays.asList(firstline).contains("physical") || Arrays.asList(firstline).contains("hearing") || Arrays.asList(firstline).contains("visual")) {
+            for (String s : firstline) {
+                disabilities.add(s);
+            }
+            lines.remove(0);
         }
-        return places;
+        for (String line : lines) {
+//            char c = line.charAt(0);
+//            if (c==('-')) {
+//                if (line.contains("n/a")) {
+//                    ObservingPerson person = new ObservingPerson(line.substring(2, line.length()-4), houses.get(houses.size()-1));
+//                    try {
+//                        houses.get(houses.size()-1).add(person);
+//                    } catch (DuplicateException e) {
+//                        System.out.println("Format of file has been modified...");
+//                        System.out.println("Cannot have more than one House with the same name");
+//                        Platform.exit();
+//                    }
+//                } else {
+//                    String[] split = line.split(" ");
+//                    int balance = 0, size = 0;
+//                    try {
+//                        String number = split[split.length-1];
+//                        balance = Integer.parseInt(number);
+//                        size = number.length()+1;
+//                    } catch (NumberFormatException e) {
+//                        System.out.println("Format of file has been modified...");
+//                        System.out.println("Use format \" - John Smith 123\" for PayingPerson entries");
+//                        Platform.exit();
+//                    }
+//                    PayingPerson person = new PayingPerson(line.substring(2, line.length()-size), houses.get(houses.size()-1), balance);
+//                    try {
+//                        houses.get(houses.size()-1).add(person);
+//                    } catch (DuplicateException e) {
+//                        System.out.println("Format of file has been modified...");
+//                        System.out.println("Cannot have more than one House with the same name");
+//                        Platform.exit();
+//                    }
+//                }
+//            } else {
+//                houses.add(new Place(line));
+//            }
+            String[] split = line.split(" ");
+            String name = split[0];
+            for (int i=1; i<split.length-3; i++) {
+                name += " ";
+                name += split[i];
+            }
+            String type = split[split.length-3];
+            int ticks = Integer.parseInt(split[split.length-2]);
+            int maxTicks = Integer.parseInt(split[split.length-1]);
+            places.add(new Place(name, type, ticks, maxTicks));
+        }
+        return new Data(disabilities, places);
     }
 
-    public void save(ArrayList<Place> places, String fileName) throws IOException {
+    public void save(ArrayList<String> disabilities, ArrayList<Place> places, String fileName) throws IOException {
         PrintWriter writer = new PrintWriter(fileName,"UTF-8");
+        if (disabilities.size() > 0) {
+            String d = disabilities.get(0);
+            if (disabilities.size() > 1) {
+                for (int i=1; i<disabilities.size(); i++) {
+                    d +=  " " + disabilities.get(i);
+                }
+            }
+            writer.println(d);
+        }
         for (Place place : places) {
-            writer.println(place.getName());
+            writer.println(place.getName() + " " + place.getType() + " " + place.getTicks() + " " + place.getMaxTicks());
         }
         writer.close();
     }
