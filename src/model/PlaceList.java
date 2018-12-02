@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 
 public class PlaceList {
-
     private ArrayList<Place> places;
 
     public PlaceList() {
@@ -14,6 +13,14 @@ public class PlaceList {
         if (!places.contains(place)) {
             places.add(place);
         }
+    }
+
+    public void remove(int i) {
+        places.remove(i);
+    }
+
+    public Place getPlace(int i) {
+        return places.get(i);
     }
 
     public ArrayList<Place> getPlaces() {
@@ -27,6 +34,4 @@ public class PlaceList {
     public void setPlaces(ArrayList<Place> places) {
         this.places = places;
     }
-
-
 }
